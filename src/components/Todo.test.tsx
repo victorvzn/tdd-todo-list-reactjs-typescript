@@ -59,7 +59,7 @@ describe('Todo list app', () => {
     expect(screen.getByText('buy some oranges')).toBeInTheDocument()
   })
 
-  it('marks an item as done', () => {
+  it('marks an item as done', async () => {
     const todos = [{ id:'item-1', content: 'buy some milk' }]
 
     render(<Todo items={todos} />)
@@ -68,7 +68,7 @@ describe('Todo list app', () => {
 
     const item = screen.getByText('buy some milk')
 
-    user.click(item)
+    await user.click(item)
 
     expect(screen.queryByText('buy some milk')).not.toBeInTheDocument()
     
