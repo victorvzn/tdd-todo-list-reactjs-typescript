@@ -7,7 +7,7 @@ import { render, screen } from '@testing-library/react'
 // 4. Mark an item as done
 
 const Todo = ({ items }: { items: string[] }) => {
-  return <div>{items[0]}</div>
+  return <div>{items.map(item => <span>{item}</span>)}</div>
 }
 
 describe('Todo list app', () => {
