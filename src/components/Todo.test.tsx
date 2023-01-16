@@ -6,13 +6,21 @@ import { render, screen } from '@testing-library/react'
 // 3. Add new item to the list
 // 4. Mark an item as done
 
-const Todo = ({ items }: { items: string[] }) => {
-  return <div>{items.map(item => <span>{item}</span>)}</div>
+interface TodoItem {
+  id: string,
+  content: string
+}
+
+const Todo = ({ items }: { items: TodoItem[] }) => {
+  return <div>{items.map(item => <span>{item.content}</span>)}</div>
 }
 
 describe('Todo list app', () => {
   it('renders an item', () => {
-    const todos = ['buy some milk']
+    const todos = [{
+      id:'item-1',
+      content: 'buy some milk'
+    }]
 
     render(<Todo items={todos} />)
 
@@ -20,7 +28,10 @@ describe('Todo list app', () => {
   })
 
   it('renders another item', () => {
-    const todos = ['buy some apples']
+    const todos = [{
+      id:'item-1',
+      content: 'buy some apples'
+    }]
 
     render(<Todo items={todos} />)
 
@@ -28,7 +39,13 @@ describe('Todo list app', () => {
   })
 
   it('renders multiple items', () => {
-    const todos = ['buy some milk', 'buy some apples']
+    const todos = [{
+      id:'item-1',
+      content: 'buy some milk'
+    }, {
+      id: 'item-2',
+      content: 'buy some apples'
+    }]
 
     render(<Todo items={todos} />)
 
