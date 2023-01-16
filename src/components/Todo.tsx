@@ -7,9 +7,8 @@ export interface TodoItem {
   content: string
 }
 
-export const Todo = ({ items }: { items: TodoItem[] }) => {
+const TodoInput = ({ onItemAdded }: { onItemAdded: (item: TodoItem) => void}) => {
   const [todo, setTodo] = useState<string>('')
-  const [todos, setTodos] = useState<TodoItem[]>(items)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodo(e.target.value)
@@ -18,18 +17,25 @@ export const Todo = ({ items }: { items: TodoItem[] }) => {
   const handleKeyDown =  (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const id = uuid()
-      setTodos([...todos, { id, content: todo }])
+      onItemAdded({ id, content: todo })
     }
   }
 
   return (
+    <input type="text" data-testid='todo-input' onChange={handleChange} onKeyDown={handleKeyDown} />
+  )
+}
+
+export const Todo = ({ items }: { items: TodoItem[] }) => {
+  const [todos, setTodos] = useState<TodoItem[]>(items)
+
+  const onItemAdded = (item: TodoItem) => {
+    setTodos([...todos, item])
+  }
+   
+  return (
     <div>
-      <input
-        type="text"
-        data-testid='todo-input'
-        onChange={handleChange}
-        onKeyDown={handleKeyDown}
-      />
+      <TodoInput onItemAdded={onItemAdded} />
 
       {todos.map(item => (
         <span key={item.id}>{item.content}</span>
