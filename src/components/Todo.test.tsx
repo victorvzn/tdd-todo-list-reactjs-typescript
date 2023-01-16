@@ -6,14 +6,7 @@ import { render, screen } from '@testing-library/react'
 // 3. Add new item to the list
 // 4. Mark an item as done
 
-interface TodoItem {
-  id: string,
-  content: string
-}
-
-const Todo = ({ items }: { items: TodoItem[] }) => {
-  return <div>{items.map(item => <span>{item.content}</span>)}</div>
-}
+import { Todo } from './Todo'
 
 describe('Todo list app', () => {
   it('renders an item', () => {
