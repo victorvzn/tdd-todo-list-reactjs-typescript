@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useTodos } from "../hooks/useTodos"
 
 import { TodoInput } from "./TodoInput"
@@ -8,6 +7,16 @@ export interface TodoItem {
   content: string
 }
 
+const TodoList = ({ todos, markItemAsDone }: { todos: TodoItem[], markItemAsDone: (todo: TodoItem) => void }) => {
+  return (
+    <ol>
+      {todos.map(item => (
+        <span key={item.id} onClick={() => markItemAsDone(item)}>{item.content}</span>
+      ))}
+    </ol>
+  )
+}
+
 export const Todo = ({ items }: { items: TodoItem[] }) => {
   const { todos, addTodoItem, markItemAsDone } = useTodos(items)
   
@@ -15,9 +24,7 @@ export const Todo = ({ items }: { items: TodoItem[] }) => {
     <div>
       <TodoInput onItemAdded={addTodoItem} />
 
-      {todos.map(item => (
-        <span key={item.id} onClick={() => markItemAsDone(item)}>{item.content}</span>
-      ))}
+      <TodoList todos={todos} markItemAsDone={markItemAsDone} />
     </div>
   )
 }
