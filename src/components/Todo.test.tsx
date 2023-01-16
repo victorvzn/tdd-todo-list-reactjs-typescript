@@ -48,14 +48,30 @@ describe('Todo list app', () => {
   })
 
   it('add new item to the list', async () => {
-    const user = userEvent.setup()
-
     render(<Todo items={[]} />)
+
+    const user = userEvent.setup()
   
     const input: HTMLInputElement = screen.getByTestId('todo-input')
 
     await user.type(input, 'buy some oranges {enter}')
 
     expect(screen.getByText('buy some oranges')).toBeInTheDocument()
+  })
+
+  it('marks an item as done', () => {
+    const todos = [{ id:'item-1', content: 'buy some milk' }]
+
+    render(<Todo items={todos} />)
+
+    const user = userEvent.setup()
+
+    const item = screen.getByText('buy some milk')
+
+    user.click(item)
+
+    expect(screen.queryByText('buy some milk')).not.toBeInTheDocument()
+    
+    // Use queryByXXX when it could throw an exception
   })
 })
