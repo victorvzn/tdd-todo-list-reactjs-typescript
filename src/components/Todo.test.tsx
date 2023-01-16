@@ -1,5 +1,6 @@
 import { describe, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 // 1. Render an item
 // 2. Render multiple items
@@ -44,5 +45,17 @@ describe('Todo list app', () => {
 
     expect(screen.getByText('buy some milk')).toBeInTheDocument()
     expect(screen.getByText('buy some apples')).toBeInTheDocument()
+  })
+
+  it('add new item to the list', async () => {
+    const user = userEvent.setup()
+
+    render(<Todo items={[]} />)
+  
+    const input: HTMLInputElement = screen.getByTestId('todo-input')
+
+    await user.type(input, 'buy some oranges {enter}')
+
+    expect(screen.getByText('buy some oranges')).toBeInTheDocument()
   })
 })
